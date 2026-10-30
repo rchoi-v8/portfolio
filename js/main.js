@@ -15,6 +15,7 @@
 
   if (reduceMotion || !("IntersectionObserver" in window)) {
     revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+    fillSkillBars();
   } else {
     var revealObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -25,9 +26,37 @@
     }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
 
     revealEls.forEach(function (el) { revealObserver.observe(el); });
+
+    var skillList = document.getElementById("skillList");
+    if (skillList) {
+      var skillObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          fillSkillBars();
+          skillObserver.disconnect();
+        });
+      }, { threshold: 0.3 });
+      skillObserver.observe(skillList);
+    }
   }
 
-  /* ---------- 2. 프로젝트 렌더링 ---------- */
+  /* ---------- 2. 스킬 바 ---------- */
+  var skillFilled = false;
+  function fillSkillBars() {
+    if (skillFilled) return;
+    skillFilled = true;
+    document.querySelectorAll(".skill").forEach(function (skill) {
+      var fill = skill.querySelector(".skill__fill");
+      if (!fill) return;
+      var level = Number(skill.getAttribute("data-level")) || 0;
+      fill.style.width = "0%";
+      window.setTimeout(function () {
+        fill.style.width = level + "%";
+      }, 90);
+    });
+  }
+
+  /* ---------- 3. 프로젝트 렌더링 ---------- */
   var grid = document.getElementById("projectGrid");
   var status = document.getElementById("projectStatus");
 

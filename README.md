@@ -12,7 +12,7 @@
 portfolio/
 ├── index.html      # 전체 마크업 (nav, Hero, About, Tools, Experience, Projects, Contact)
 ├── css/style.css   # 디자인 토큰 + 뉴모피즘 컴포넌트 + 반응형
-├── js/main.js      # 동적 기능 5종
+├── js/main.js      # 동적 기능 6종
 └── .gitignore      # .DS_Store 제외
 ```
 
