@@ -40,19 +40,19 @@
     }
   }
 
-  /* ---------- 2. 스킬 바 ---------- */
+  /* ---------- 2. 스킬 5단계 ---------- */
   var skillFilled = false;
   function fillSkillBars() {
     if (skillFilled) return;
     skillFilled = true;
     document.querySelectorAll(".skill").forEach(function (skill) {
-      var fill = skill.querySelector(".skill__fill");
-      if (!fill) return;
       var level = Number(skill.getAttribute("data-level")) || 0;
-      fill.style.width = "0%";
-      window.setTimeout(function () {
-        fill.style.width = level + "%";
-      }, 90);
+      var steps = skill.querySelectorAll(".skill__steps span");
+      Array.prototype.forEach.call(steps, function (step, index) {
+        window.setTimeout(function () {
+          if (index < level) step.classList.add("is-on");
+        }, 120 + index * 90);
+      });
     });
   }
 
