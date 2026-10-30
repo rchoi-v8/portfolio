@@ -15,49 +15,19 @@
 
   if (reduceMotion || !("IntersectionObserver" in window)) {
     revealEls.forEach(function (el) { el.classList.add("is-visible"); });
-    fillSkillBars();
   } else {
     var revealObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         entry.target.classList.add("is-visible");
         revealObserver.unobserve(entry.target);
-        if (entry.target.contains(document.getElementById("skillList"))) fillSkillBars();
       });
     }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
 
     revealEls.forEach(function (el) { revealObserver.observe(el); });
-
-    var skillSection = document.getElementById("skillList");
-    if (skillSection) {
-      var skillObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            fillSkillBars();
-            skillObserver.disconnect();
-          }
-        });
-      }, { threshold: 0.3 });
-      skillObserver.observe(skillSection);
-    }
   }
 
-  /* ---------- 5. 스킬 바 ---------- */
-  var skillFilled = false;
-  function fillSkillBars() {
-    if (skillFilled) return;
-    skillFilled = true;
-    document.querySelectorAll(".skill").forEach(function (skill) {
-      var fill = skill.querySelector(".skill__fill");
-      var level = Number(skill.getAttribute("data-level")) || 0;
-      if (fill) fill.style.width = "0%";
-      window.setTimeout(function () {
-        if (fill) fill.style.width = level + "%";
-      }, 80);
-    });
-  }
-
-  /* ---------- 3. 프로젝트 렌더링 ---------- */
+  /* ---------- 2. 프로젝트 렌더링 ---------- */
   var grid = document.getElementById("projectGrid");
   var status = document.getElementById("projectStatus");
 
